@@ -1,11 +1,24 @@
 #include <string>
+#include <time.h> 
 
 #include "format.h"
 
 using std::string;
 
-// TODO: Complete this helper function
+#define  SEC_PER_HOUR 3600
+#define  SEC_PER_MIN 60
+
+// helper function
 // INPUT: Long int measuring seconds
 // OUTPUT: HH:MM:SS
-// REMOVE: [[maybe_unused]] once you define the function
-string Format::ElapsedTime(long seconds[[maybe_unused]]) { return string(); }
+string Format::ElapsedTime(long seconds) {
+    struct tm timeinfo;
+    char buffer [10];
+
+    timeinfo.tm_hour = seconds/SEC_PER_HOUR;
+    seconds = seconds - timeinfo.tm_hour * SEC_PER_HOUR;
+    timeinfo.tm_min = seconds / SEC_PER_MIN;
+    timeinfo.tm_sec = seconds - timeinfo.tm_min * SEC_PER_MIN;
+    strftime (buffer,10,"%H:%M:%S",&timeinfo);
+    return buffer;
+}
